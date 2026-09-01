@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Android Wall of Shame</title>
+<meta name="description" content="Which Android manufacturers let you unlock your bootloader, which make you beg, and which never will.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@400;500&family=Google+Sans+Flex:ROND,opsz,wdth,wght@0..100,6..144,25..151,1..1000&family=Google+Sans:wght@400..700&display=swap">
+<link rel="stylesheet" href="assets/tokens.css">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#wall">Skip to the wall</a>
+
+<div class="shell">
+
+  <header class="masthead">
+    <div>
+      <p class="eyebrow">Bootloader freedom · 16 manufacturers · updated September 2026</p>
+      <h1>Android<span class="shame">Wall of Shame</span></h1>
+      <p class="lede">
+        You bought the phone. Whether you are allowed to run your own software on it
+        is somebody else&rsquo;s decision. Here is who lets you, who makes you beg,
+        and who has quietly closed the door for good.
+      </p>
+    </div>
+    <button class="icon-button" id="theme-toggle" type="button" aria-pressed="false" aria-label="Switch to dark theme">
+      <svg class="glyph-light" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17q-2.075 0-3.537-1.463Q7 14.075 7 12t1.463-3.538Q9.925 7 12 7t3.538 1.462Q17 9.925 17 12q0 2.075-1.462 3.537Q14.075 17 12 17ZM2 13q-.425 0-.712-.288Q1 12.425 1 12t.288-.713Q1.575 11 2 11h2q.425 0 .713.287Q5 11.575 5 12t-.287.712Q4.425 13 4 13Zm18 0q-.425 0-.712-.288Q19 12.425 19 12t.288-.713Q19.575 11 20 11h2q.425 0 .712.287.288.288.288.713t-.288.712Q22.425 13 22 13Zm-8-8q-.425 0-.712-.288Q11 4.425 11 4V2q0-.425.288-.713Q11.575 1 12 1t.713.287Q13 1.575 13 2v2q0 .425-.287.712Q12.425 5 12 5Zm0 18q-.425 0-.712-.288Q11 22.425 11 22v-2q0-.425.288-.712Q11.575 19 12 19t.713.288Q13 19.575 13 20v2q0 .425-.287.712Q12.425 23 12 23ZM5.65 7.05 4.575 6q-.3-.275-.288-.7.013-.425.288-.725.3-.3.725-.3t.7.3L7.05 5.65q.275.3.275.7 0 .4-.275.7-.275.3-.687.287-.413-.012-.713-.287ZM18 19.425l-1.05-1.075q-.275-.3-.275-.712 0-.413.275-.688.275-.3.688-.287.412.012.712.287L19.425 18q.3.275.288.7-.013.425-.288.725-.3.3-.725.3t-.7-.3ZM16.95 7.05q-.3-.275-.287-.688.012-.412.287-.712L18 4.575q.275-.3.7-.288.425.013.725.288.3.3.3.725t-.3.7L18.35 7.05q-.3.275-.7.275-.4 0-.7-.275ZM4.575 19.425q-.3-.3-.3-.725t.3-.7l1.075-1.05q.3-.275.712-.275.413 0 .688.275.3.275.287.688-.012.412-.287.712L6 19.425q-.275.3-.7.287-.425-.012-.725-.287Z"/></svg>
+      <svg class="glyph-dark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21q-3.75 0-6.375-2.625T3 12q0-3.75 2.625-6.375T12 3q.35 0 .688.025.337.025.662.075-1.025.725-1.638 1.887Q11.1 6.15 11.1 7.5q0 2.25 1.575 3.825Q14.25 12.9 16.5 12.9q1.375 0 2.525-.613 1.15-.612 1.85-1.637.05.325.075.662Q21 11.65 21 12q0 3.75-2.625 6.375T12 21Z"/></svg>
+    </button>
+  </header>
+
+  <section class="meter" aria-labelledby="meter-title">
+    <div class="meter__head">
+      <h2 class="meter__title" id="meter-title">Where the industry stands</h2>
+      <p class="meter__note">Bar width = share of manufacturers</p>
+    </div>
+    <div class="meter__bar" id="meter-bar" aria-hidden="true"></div>
+    <h3 class="sr-only">Filter by difficulty</h3>
+    <ul class="chips" id="chips"></ul>
+  </section>
+
+  <div class="controls">
+    <div class="search" role="search">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 16q-2.725 0-4.612-1.887Q3 12.225 3 9.5q0-2.725 1.888-4.613Q6.775 3 9.5 3t4.613 1.887Q16 6.775 16 9.5q0 1.1-.35 2.075-.35.975-.95 1.725l5.6 5.6q.275.275.275.7t-.275.7q-.275.275-.7.275t-.7-.275l-5.6-5.6q-.75.6-1.725.95Q10.6 16 9.5 16Zm0-2q1.875 0 3.188-1.312Q14 11.375 14 9.5q0-1.875-1.312-3.188Q11.375 5 9.5 5T6.312 6.312Q5 7.625 5 9.5q0 1.875 1.312 3.188Q7.625 14 9.5 14Z"/></svg>
+      <label class="sr-only" for="search">Search manufacturers and methods</label>
+      <input id="search" type="search" placeholder="Search &ldquo;fastboot&rdquo;, &ldquo;warranty&rdquo;, &ldquo;Sony&rdquo;&hellip;" autocomplete="off">
+    </div>
+
+    <div class="segmented" id="sort" role="group" aria-label="Sort order">
+      <button type="button" data-sort="worst" aria-pressed="true">Worst first</button>
+      <button type="button" data-sort="best" aria-pressed="false">Best first</button>
+      <button type="button" data-sort="name" aria-pressed="false">A&ndash;Z</button>
+    </div>
+
+    <p class="controls__count" id="count" role="status"></p>
+  </div>
+
+  <main>
+    <h2 class="sr-only">The wall</h2>
+    <ol class="wall" id="wall"></ol>
+    <p class="empty" id="empty" hidden>
+      <strong>Nothing matches that.</strong>
+      Try a manufacturer name, or a method like <em>fastboot</em> or <em>IMEI</em>.
+    </p>
+  </main>
+
+  <footer class="colophon">
+    <p>
+      Ranked worst to best by how hard the manufacturer makes it to run your own
+      software. Difficulty bands: <strong>Impossible</strong> and <strong>Extreme</strong>
+      mean no realistic official route; <strong>Hard</strong>, <strong>Varies</strong> and
+      <strong>Medium</strong> mean it can be done, at some cost;
+      <strong>Easy</strong> means a toggle and a fastboot command.
+    </p>
+  </footer>
+
+</div>
+
+<script src="data/vendors.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

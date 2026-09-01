@@ -1,0 +1,805 @@
+/* Android Wall of Shame
+   Material 3 Expressive. Colour comes entirely from assets/tokens.css
+   (generated, spec 2026, seed #4444fe) — nothing here hardcodes a hex. */
+
+/* ---------------------------------------------------------------- system */
+
+:root {
+  /* M3 shape scale, plus the full round Expressive leans on. */
+  --shape-xs: 4px;
+  --shape-sm: 8px;
+  --shape-md: 12px;
+  --shape-lg: 16px;
+  --shape-xl: 28px;
+  --shape-xxl: 48px;
+  --shape-full: 999px;
+
+  /* Pill radii, each the real half-height of the component that uses it.
+     border-radius is clamped to half the box at paint time, so transitioning
+     to an arbitrary 999px spends almost the whole duration on values that
+     render identically: the visible change collapses into a few frames at one
+     end of the timeline. That is why selecting one chip and deselecting
+     another looked sequential — one morph finished in two frames, the other
+     did not start moving until the last three. Use --shape-full only where the
+     radius never animates. */
+  --pill-56: 28px;
+  --pill-40: 20px;
+  --pill-32: 16px;
+  --pill-10: 5px;
+
+  /* M3 emphasized easing. Earlier these were hand-rolled "spring" curves whose
+     second control point sat below the target, so every shape morph overshot,
+     undershot, then settled — two visible bounces reading as a doubled
+     animation. The Expressive character here comes from the shape morph itself
+     (rect to pill), not from wobble. */
+  --motion-spatial-fast: 350ms cubic-bezier(0.20, 0.00, 0.00, 1.00);
+  --motion-spatial: 500ms cubic-bezier(0.20, 0.00, 0.00, 1.00);
+  --motion-effect: 200ms cubic-bezier(0.34, 0.80, 0.34, 1.00);
+  --motion-enter: 420ms cubic-bezier(0.05, 0.70, 0.10, 1.00);
+
+  /* M3 state layer opacities. */
+  --state-hover: 0.08;
+  --state-focus: 0.10;
+  --state-press: 0.10;
+
+  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --measure: 62ch;
+
+  /* The high-visibility member of the error family, per theme. */
+  --tier-error-bright: var(--md-sys-color-error-container);
+
+  /* The Google Sans family, all three open-source members:
+     Flex is the variable Expressive display face (wght 1-1000, wdth 25-151,
+     ROND 0-100), Google Sans carries running text, Code carries data. */
+  --font-display: 'Google Sans Flex', 'Google Sans', system-ui, sans-serif;
+  --font-body: 'Google Sans', 'Google Sans Flex', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Google Sans Code', ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --tier-error-bright: var(--md-sys-color-on-error-container);
+  }
+}
+:root[data-theme='dark'] {
+  --tier-error-bright: var(--md-sys-color-on-error-container);
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-optical-sizing: auto;
+  background: var(--md-sys-color-background);
+  color: var(--md-sys-color-on-background);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+:focus-visible {
+  outline: 3px solid var(--md-sys-color-primary);
+  outline-offset: 3px;
+  border-radius: var(--shape-xs);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--gutter);
+  top: -100px;
+  z-index: 50;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--shape-full);
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  font: 500 14px/20px var(--font-body);
+  text-decoration: none;
+  transition: top var(--motion-effect);
+}
+.skip-link:focus { top: 1rem; }
+
+/* --------------------------------------------------------------- shell */
+
+.shell {
+  max-width: 1360px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* ------------------------------------------------------------- masthead */
+
+.masthead {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 1.5rem;
+  padding-block: clamp(2rem, 6vw, 4.5rem) clamp(1.75rem, 4vw, 3rem);
+}
+
+.eyebrow {
+  margin: 0 0 1.25rem;
+  font: 500 12px/16px var(--font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+.masthead h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 9.5vw, 6.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  font-weight: 900;
+  font-variation-settings: 'wdth' 122, 'ROND' 100;
+  text-wrap: balance;
+  color: var(--md-sys-color-on-surface);
+}
+
+.masthead h1 .shame {
+  display: block;
+  color: var(--md-sys-color-error);
+  font-style: normal;
+}
+
+.lede {
+  max-width: var(--measure);
+  margin: 1.5rem 0 0;
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  line-height: 1.55;
+  color: var(--md-sys-color-on-surface-variant);
+  text-wrap: pretty;
+}
+
+/* --------------------------------------------------- icon toggle button */
+
+.icon-button {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  border: none;
+  border-radius: var(--shape-lg);
+  background: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface-variant);
+  cursor: pointer;
+  position: relative;
+  isolation: isolate;
+  transition:
+    border-radius var(--motion-spatial-fast),
+    background-color var(--motion-effect),
+    color var(--motion-effect);
+}
+.icon-button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0;
+  z-index: -1;
+  transition: opacity var(--motion-effect);
+}
+.icon-button:hover::after { opacity: var(--state-hover); }
+.icon-button:active {
+  border-radius: var(--shape-xl);
+  transform: scale(0.94);
+}
+.icon-button svg { width: 24px; height: 24px; fill: currentColor; }
+.icon-button .glyph-dark { display: none; }
+:root[data-theme='dark'] .icon-button .glyph-dark { display: block; }
+:root[data-theme='dark'] .icon-button .glyph-light { display: none; }
+
+/* ------------------------------------------------------------ the meter */
+
+.meter {
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  border-radius: var(--shape-xl);
+  background: var(--md-sys-color-surface-container-low);
+}
+
+.meter__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  margin-bottom: 1.125rem;
+}
+
+.meter__title {
+  margin: 0;
+  font: 500 22px/28px var(--font-display);
+  font-variation-settings: 'wdth' 108, 'ROND' 100;
+  letter-spacing: -0.01em;
+  color: var(--md-sys-color-on-surface);
+}
+
+.meter__note {
+  margin: 0;
+  font: 400 13px/18px var(--font-mono);
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+/* Segments are sized by share of the 16 manufacturers, so the bar itself is
+   the finding: most of the industry sits in the red band. */
+.meter__bar {
+  display: flex;
+  gap: 4px;
+  height: 28px;
+  margin-bottom: 1.5rem;
+}
+
+.meter__seg {
+  border-radius: var(--shape-xs);
+  background: var(--tier-solid);
+  transform-origin: left center;
+  transition:
+    flex-grow var(--motion-spatial),
+    opacity var(--motion-effect),
+    border-radius var(--motion-spatial-fast);
+  animation: seg-in var(--motion-enter) backwards;
+}
+.meter__seg:first-child { border-start-start-radius: var(--shape-lg); border-end-start-radius: var(--shape-lg); }
+.meter__seg:last-child { border-start-end-radius: var(--shape-lg); border-end-end-radius: var(--shape-lg); }
+.meter__bar[data-focused] .meter__seg { opacity: 0.28; }
+.meter__bar[data-focused] .meter__seg[data-active] {
+  opacity: 1;
+  border-radius: var(--shape-md);
+}
+
+@keyframes seg-in {
+  from { transform: scaleX(0); opacity: 0; }
+  to   { transform: scaleX(1); opacity: 1; }
+}
+
+/* ---------------------------------------------------------- filter chips */
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 40px;
+  padding-inline: 1rem;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: var(--shape-sm);
+  background: transparent;
+  color: var(--md-sys-color-on-surface-variant);
+  font: 500 14px/20px var(--font-body);
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  position: relative;
+  isolation: isolate;
+  transition:
+    border-radius var(--motion-spatial-fast),
+    background-color var(--motion-effect),
+    border-color var(--motion-effect),
+    color var(--motion-effect);
+}
+.chip::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0;
+  z-index: -1;
+  transition: opacity var(--motion-effect);
+}
+.chip:hover::after { opacity: var(--state-hover); }
+.chip:active { transform: scale(0.97); }
+
+/* Selection is a shape change as much as a colour change — the Expressive
+   signature. The dot carries the tier hue even when unselected. */
+.chip[aria-pressed='true'] {
+  border-radius: var(--pill-40);
+  border-color: transparent;
+  background: var(--tier-container, var(--md-sys-color-secondary-container));
+  color: var(--tier-on-container, var(--md-sys-color-on-secondary-container));
+}
+
+.chip__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--pill-10);
+  background: var(--tier-solid, var(--md-sys-color-on-surface-variant));
+  flex: none;
+  transition: border-radius var(--motion-spatial-fast), transform var(--motion-spatial-fast);
+}
+.chip[aria-pressed='true'] .chip__dot {
+  border-radius: var(--shape-xs);
+  transform: rotate(45deg) scale(1.05);
+}
+
+.chip__count {
+  font: 500 12px/16px var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  opacity: 0.75;
+}
+
+/* -------------------------------------------------------------- controls */
+
+.controls {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin-block: clamp(1.5rem, 3vw, 2.25rem) 1.5rem;
+  padding-block: 0.875rem;
+  background: color-mix(in srgb, var(--md-sys-color-background) 88%, transparent);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  flex: 1 1 260px;
+  max-width: 420px;
+  height: 56px;
+  padding-inline: 1rem;
+  border-radius: var(--pill-56);
+  background: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface-variant);
+  transition: border-radius var(--motion-spatial-fast), background-color var(--motion-effect);
+}
+.search:focus-within {
+  border-radius: var(--shape-lg);
+  background: var(--md-sys-color-surface-container-highest);
+}
+.search svg { width: 22px; height: 22px; fill: currentColor; flex: none; }
+.search input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: none;
+  outline: none;
+  font: 400 16px/24px var(--font-body);
+  color: var(--md-sys-color-on-surface);
+}
+.search input::placeholder { color: var(--md-sys-color-on-surface-variant); }
+
+/* M3 Expressive connected button group. */
+.segmented {
+  display: inline-flex;
+  gap: 3px;
+  padding: 0;
+  background: var(--md-sys-color-surface-container-high);
+  border-radius: var(--pill-56);
+}
+
+.segmented button {
+  border: none;
+  height: 56px;
+  padding-inline: 1.125rem;
+  border-radius: var(--pill-56);
+  background: transparent;
+  color: var(--md-sys-color-on-surface-variant);
+  font: 500 14px/20px var(--font-body);
+  white-space: nowrap;
+  cursor: pointer;
+  position: relative;
+  isolation: isolate;
+  transition:
+    border-radius var(--motion-spatial-fast),
+    background-color var(--motion-effect),
+    color var(--motion-effect),
+    flex-grow var(--motion-spatial);
+}
+.segmented button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0;
+  z-index: -1;
+  transition: opacity var(--motion-effect);
+}
+.segmented button:hover::after { opacity: var(--state-hover); }
+.segmented button:active { transform: scale(0.96); }
+.segmented button[aria-pressed='true'] {
+  border-radius: var(--shape-md);
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+}
+
+.controls__count {
+  margin-left: auto;
+  font: 400 13px/18px var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+/* ------------------------------------------------------------ the cards */
+
+.wall {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 1rem;
+  margin: 0 0 clamp(3rem, 8vw, 6rem);
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-radius: var(--shape-xl);
+  background: var(--md-sys-color-surface-container);
+  color: var(--md-sys-color-on-surface);
+  position: relative;
+  isolation: isolate;
+  transition:
+    border-radius var(--motion-spatial-fast),
+    background-color var(--motion-effect),
+    transform var(--motion-spatial-fast);
+}
+/* Hidden only while a reveal is genuinely pending, and only when JS armed it. */
+.card.is-pending { opacity: 0; }
+.card.is-entering {
+  animation: card-in var(--motion-enter) var(--enter-delay, 0ms) backwards;
+}
+
+/* The severity bar counts itself out rather than appearing fully formed —
+   it is the one mark on the card that encodes a quantity. */
+.card.is-entering .steps span {
+  transform-origin: left center;
+  animation: step-in 240ms cubic-bezier(0.05, 0.70, 0.10, 1.00) backwards;
+}
+.card.is-entering .steps span:nth-child(1) { animation-delay: calc(var(--enter-delay, 0ms) + 130ms); }
+.card.is-entering .steps span:nth-child(2) { animation-delay: calc(var(--enter-delay, 0ms) + 175ms); }
+.card.is-entering .steps span:nth-child(3) { animation-delay: calc(var(--enter-delay, 0ms) + 220ms); }
+.card.is-entering .steps span:nth-child(4) { animation-delay: calc(var(--enter-delay, 0ms) + 265ms); }
+.card.is-entering .steps span:nth-child(5) { animation-delay: calc(var(--enter-delay, 0ms) + 310ms); }
+
+@keyframes step-in {
+  from { transform: scaleX(0); opacity: 0; }
+  to   { transform: scaleX(1); opacity: 1; }
+}
+.card:hover {
+  background: var(--md-sys-color-surface-container-high);
+  border-start-start-radius: var(--shape-xxl);
+  border-end-end-radius: var(--shape-xxl);
+  transform: translateY(-2px);
+}
+
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.985); }
+  to   { opacity: 1; transform: none; }
+}
+
+.card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Rank is real information: the wall is an ordered ranking, worst first. */
+.card__rank {
+  font: 500 12px/16px var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+  color: var(--md-sys-color-on-surface-variant);
+  padding-top: 0.35rem;
+}
+
+.card__name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.4vw, 1.875rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+  font-variation-settings: 'wdth' 110, 'ROND' 100;
+  text-wrap: balance;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  height: 32px;
+  padding-inline: 0.875rem;
+  border-radius: var(--shape-sm);
+  background: var(--tier-container);
+  color: var(--tier-on-container);
+  font: 500 12px/16px var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex: none;
+  transition: border-radius var(--motion-spatial-fast);
+}
+.card:hover .badge { border-radius: var(--pill-32); }
+
+/* Five steps, filled to the tier's severity — state as form, not just hue. */
+.steps {
+  display: flex;
+  gap: 4px;
+  height: 6px;
+}
+.steps span {
+  flex: 1;
+  border-radius: var(--shape-full);
+  background: var(--md-sys-color-surface-container-highest);
+}
+.steps span[data-on] { background: var(--tier-solid); }
+
+.card__verdict {
+  margin: 0;
+  font-size: 1.0625rem;
+  line-height: 1.45;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  color: var(--md-sys-color-on-surface);
+  text-wrap: pretty;
+}
+
+.card__detail {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--md-sys-color-on-surface-variant);
+  text-wrap: pretty;
+}
+
+/* Everything below the prose sits in one block pinned to the card bottom, so
+   cards on a row line their evidence and buttons up regardless of text length. */
+.card__foot {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  margin-top: auto;
+}
+
+.evidence {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.evidence li {
+  padding: 0.3125rem 0.625rem;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: var(--shape-sm);
+  font: 400 11px/16px var(--font-mono);
+  letter-spacing: 0.02em;
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+.card__source {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  padding-top: 0.875rem;
+  border-top: 1px solid var(--md-sys-color-outline-variant);
+}
+
+/* M3 text button. The corner morph on hover matches the badge and the chips. */
+.link-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 40px;
+  padding-inline: 1rem;
+  border-radius: var(--pill-40);
+  background: transparent;
+  color: var(--md-sys-color-primary);
+  font: 500 14px/20px var(--font-body);
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  white-space: nowrap;
+  position: relative;
+  isolation: isolate;
+  transition:
+    border-radius var(--motion-spatial-fast),
+    background-color var(--motion-effect);
+}
+.link-button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0;
+  z-index: -1;
+  transition: opacity var(--motion-effect);
+}
+.link-button:hover {
+  border-radius: var(--shape-sm);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.link-button:hover::after { opacity: var(--state-hover); }
+.link-button:active { transform: scale(0.97); }
+.link-button svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  flex: none;
+}
+
+/* Say what the reader is about to open — a manufacturer's own words, a news
+   report and a community write-up carry different weight. */
+.card__origin {
+  font: 400 11px/16px var(--font-mono);
+  letter-spacing: 0.02em;
+  color: var(--md-sys-color-on-surface-variant);
+}
+.card__origin::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 0.5rem;
+  border-radius: var(--shape-full);
+  vertical-align: 1px;
+  background: var(--md-sys-color-outline);
+}
+.card__origin[data-kind='official']::before { background: var(--md-sys-color-primary); }
+.card__origin[data-kind='news']::before { background: var(--md-sys-color-outline); }
+.card__origin[data-kind='reference']::before {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--md-sys-color-outline);
+}
+
+/* Tier assignments. Red for the two worst bands, tertiary for the middle,
+   primary container for the one band that behaves. */
+[data-tier='impossible'] {
+  --tier-solid: var(--md-sys-color-error);
+  --tier-container: var(--md-sys-color-error);
+  --tier-on-container: var(--md-sys-color-on-error);
+}
+[data-tier='extreme'] {
+  --tier-solid: var(--tier-error-bright);
+  --tier-container: var(--md-sys-color-error-container);
+  --tier-on-container: var(--md-sys-color-on-error-container);
+}
+[data-tier='hard'] {
+  --tier-solid: var(--md-sys-color-tertiary);
+  --tier-container: var(--md-sys-color-tertiary);
+  --tier-on-container: var(--md-sys-color-on-tertiary);
+}
+[data-tier='varies'] {
+  --tier-solid: repeating-linear-gradient(
+    135deg,
+    var(--md-sys-color-tertiary) 0 3px,
+    var(--md-sys-color-tertiary-container) 3px 7px
+  );
+  --tier-container: var(--md-sys-color-tertiary-fixed-dim);
+  --tier-on-container: var(--md-sys-color-on-tertiary-fixed);
+}
+
+/* Only the badge goes outlined for varies. This used to be done by setting
+   --tier-container to transparent, but the filter chip reads that same token,
+   so selecting "Varies" produced a chip with no fill and — since a pressed
+   chip also clears its border — no border either. It vanished. Scope the
+   outline to the badge and leave the shared token a real colour. */
+[data-tier='varies'] .badge {
+  background: transparent;
+  color: var(--md-sys-color-tertiary);
+  box-shadow: inset 0 0 0 1.5px currentColor;
+}
+[data-tier='medium'] {
+  --tier-solid: var(--md-sys-color-tertiary-container);
+  --tier-container: var(--md-sys-color-tertiary-container);
+  --tier-on-container: var(--md-sys-color-on-tertiary-container);
+}
+[data-tier='easy'] {
+  --tier-solid: var(--md-sys-color-primary-container);
+  --tier-container: var(--md-sys-color-primary-container);
+  --tier-on-container: var(--md-sys-color-on-primary-container);
+}
+[data-tier='all'] {
+  --tier-solid: var(--md-sys-color-on-surface-variant);
+  --tier-container: var(--md-sys-color-secondary-container);
+  --tier-on-container: var(--md-sys-color-on-secondary-container);
+}
+
+/* ---------------------------------------------------------- empty state */
+
+.empty {
+  display: grid;
+  place-items: center;
+  gap: 0.75rem;
+  padding: clamp(3rem, 8vw, 5rem) 1.5rem;
+  border: 1px dashed var(--md-sys-color-outline-variant);
+  border-radius: var(--shape-xl);
+  text-align: center;
+  color: var(--md-sys-color-on-surface-variant);
+}
+.empty strong {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--md-sys-color-on-surface);
+}
+
+/* ---------------------------------------------------------------- footer */
+
+.colophon {
+  padding-block: 2rem clamp(2.5rem, 6vw, 4rem);
+  border-top: 1px solid var(--md-sys-color-outline-variant);
+  display: grid;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--md-sys-color-on-surface-variant);
+}
+.colophon p { margin: 0; max-width: var(--measure); text-wrap: pretty; }
+
+/* -------------------------------------------------------------- responsive */
+
+/* Below this the search, the sort group and the tally stop fitting on one
+   line comfortably, so the tally drops to its own row rather than crowding. */
+@media (max-width: 880px) {
+  .controls__count { margin-left: 0; width: 100%; }
+}
+
+@media (max-width: 720px) {
+  /* Float the toggle over the masthead instead of giving it a whole row —
+     the headline needs the full column width at this size. */
+  .masthead {
+    position: relative;
+    grid-template-columns: 1fr;
+  }
+  .masthead > .icon-button {
+    position: absolute;
+    top: clamp(2rem, 6vw, 4.5rem);
+    right: 0;
+  }
+  .eyebrow { padding-right: 72px; }
+  .search { flex-basis: 100%; max-width: none; }
+  .segmented { width: 100%; }
+  .segmented button { flex: 1; padding-inline: 0.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    /* Stagger delays are set inline, so they need overriding too — otherwise
+       entrance animations just leave content invisible instead of animated. */
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .card:hover { transform: none; }
+  /* A pending card must never stay hidden when its reveal is disabled. */
+  .card.is-pending { opacity: 1; }
+}
