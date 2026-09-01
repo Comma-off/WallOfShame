@@ -2,7 +2,8 @@
  * Generates assets/tokens.css from a single seed colour.
  *
  * Material 3 Expressive, colour spec SPEC_2026, phone platform, standard
- * contrast. Both themes come out of the same DynamicScheme so light and dark
+ * contrast. The colour library is vendored (see tools/vendor-mcu.mjs) so the
+ * site builds with no installed dependencies. Both themes come out of the same DynamicScheme so light and dark
  * stay in step: change SEED here and every surface, badge and outline on the
  * wall follows.
  */
@@ -14,7 +15,7 @@ import {
   MaterialDynamicColors,
   argbFromHex,
   hexFromArgb,
-} from '@ktibow/material-color-utilities-nightly';
+} from './vendor/material-color-utilities.mjs';
 
 const SEED = '#4444fe';
 const SPEC_VERSION = '2026';

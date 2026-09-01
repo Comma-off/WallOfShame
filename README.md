@@ -7,11 +7,12 @@ best.
 ## Running it
 
 ```sh
-npm install     # one dev dependency, used only to generate colour tokens
 npm run serve   # http://localhost:4173
 ```
 
-`index.html` is plain static HTML — opening it straight off disk works too.
+No install step: the project has **no dependencies**, runtime or build. `npm
+install` is a no-op and never creates a `node_modules`. `index.html` is plain
+static HTML, so opening it straight off disk works too.
 
 ## Layout
 
@@ -25,6 +26,9 @@ docs/wall-of-shame.md    source notes the data is written from
 tools/generate-tokens.mjs
 tools/bundle.mjs         inlines everything into dist/index.html
 tools/serve.mjs
+tools/validate.mjs
+tools/vendor-mcu.mjs     rebuilds the vendored colour library
+tools/vendor/            the colour library, bundled — do not edit
 ```
 
 ## Colour
@@ -39,10 +43,26 @@ of the same scheme, so they stay in step.
 
 ```sh
 npm run tokens   # rewrite assets/tokens.css
-npm run build    # tokens + dist/index.html
+npm run build    # validate + tokens + dist/index.html
 ```
 
 Change `SEED` at the top of the generator and the whole wall re-themes.
+
+The colour library is **vendored** at `tools/vendor/material-color-utilities.mjs`
+— one tree-shaken file holding the six exports the generator needs. It is there
+so the project carries no dependencies: `assets/tokens.css` is committed, the
+library only matters when the seed changes, and a 158-entry `node_modules` was
+poor value for that. It also means the site builds offline, with no supply-chain
+surface, which suits a site about who you can trust with your device.
+
+To update it:
+
+```sh
+npm install --no-save @ktibow/material-color-utilities-nightly esbuild
+npm run vendor:mcu
+npm run build      # confirm the tokens changed only as you expected
+rm -rf node_modules
+```
 
 ## Icon
 
